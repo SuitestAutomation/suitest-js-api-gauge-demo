@@ -31,7 +31,7 @@ Make sure that drop-down in the right corner of the menu can be opened and pop-u
 
 Move focus to top menu
 
-* Press "up"
+* Press "down"
 * Assert "WatchMe" navigation item is focused
 
 Navigate all the way to the right
