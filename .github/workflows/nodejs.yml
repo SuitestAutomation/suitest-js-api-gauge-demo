@@ -31,6 +31,11 @@ jobs:
     - name: Run tests
       run: |
         npm run automated
+      env:
+        CI: true
+        SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
+        SUITEST_TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
+        SUITEST_TOKEN_PASSWORD: ${{ secrets.TOKEN_PASSWORD }}
     - name: Archive jUnit results to artifacts
       uses: actions/upload-artifact@v1
       with:
@@ -46,9 +51,4 @@ jobs:
         path: reports/html-report.zip
     - name: Report results to dashboard
       run: |
-        curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "x-api-key: $CALLIOPE_TOKEN" -F "file[]=@reports/xml-report/result.xml" http://app.calliope.pro/api/v2/profile/764/report/import?os=macos&platform=chrome&build=$GITHUB_SHA
-      env:
-        CI: true
-        SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
-        SUITEST_TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
-        SUITEST_TOKEN_PASSWORD: ${{ secrets.TOKEN_PASSWORD }}
+        curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "x-api-key: ${{ secrets.CALLIOPE_TOKEN }}" -F "file[]=@reports/xml-report/result.xml" http://app.calliope.pro/api/v2/profile/764/report/import?os=macos&platform=chrome&build=$GITHUB_SHA
