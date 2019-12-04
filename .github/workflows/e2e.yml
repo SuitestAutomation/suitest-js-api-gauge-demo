@@ -1,9 +1,7 @@
 name: Gauge e2e tests
 
 # trigger e2e test run when pre-release is created
-on:
-  release:
-    types: [prereleased]
+on: [pull_request]
 
 jobs:
   test:
