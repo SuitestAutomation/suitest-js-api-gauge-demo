@@ -20,17 +20,18 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Install Gauge runner
+    - name: Install dependencies
       run: |
         sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys 023EDB0B
         echo deb https://dl.bintray.com/gauge/gauge-deb stable main | sudo tee -a /etc/apt/sources.list
         sudo apt-get update
         sudo apt-get install gauge
         gauge install
-    - name: npm install, build, and test
-      run: |
         npm ci
+    - name: Run tests and report the results
+      run: |
         npm run automated
+        curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "x-api-key:$CALLIOPE_TOKEN" -F "file[]=@reports/xml-report/result.xml" http://app.calliope.pro/api/v2/profile/764/report/import?os=macos&platform=chrome&build=$GITHUB_SHA
       env:
         CI: true
         SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
