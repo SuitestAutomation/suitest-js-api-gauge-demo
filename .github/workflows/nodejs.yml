@@ -28,9 +28,24 @@ jobs:
         sudo apt-get install gauge
         gauge install
         npm ci
-    - name: Run tests and report the results
+    - name: Run tests
       run: |
         npm run automated
+    - name: Archive jUnit results to artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: jUnit report
+        path: reports/xml-report/result.xml
+    - name: Zip HTML report
+      run: |
+        zip -r reports/html-report.zip reports/html-report
+    - name: Archive HTML results to artifacts
+      uses: actions/upload-artifact@v1
+      with:
+        name: HTML report
+        path: reports/html-report.zip
+    - name: Report results to dashboard
+      run: |
         curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "x-api-key: $CALLIOPE_TOKEN" -F "file[]=@reports/xml-report/result.xml" http://app.calliope.pro/api/v2/profile/764/report/import?os=macos&platform=chrome&build=$GITHUB_SHA
       env:
         CI: true
