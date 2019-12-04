@@ -23,7 +23,7 @@ jobs:
     - name: npm install, build, and test
       run: |
         npm ci
-        npm run e2e
+        npm run automated
       env:
         CI: true
         SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
