@@ -32,7 +32,9 @@ jobs:
     - name: Run tests
       run: |
         mkdir -p reports/logs
+        set -o pipefail
         npm run automated:smoke | tee reports/logs/stdout.log
+        set +o pipefail
       env:
         CI: true
         SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
@@ -45,6 +47,6 @@ jobs:
     - name: Archive the reports and save them as artifact
       uses: actions/upload-artifact@v1
       with:
-        name: Report
+        name: Smoke test report
         path: reports
       if: success() || failure()
