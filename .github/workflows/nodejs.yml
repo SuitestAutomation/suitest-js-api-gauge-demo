@@ -26,3 +26,6 @@ jobs:
         npm run e2e
       env:
         CI: true
+        SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
+        SUITEST_TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
+        SUITEST_TOKEN_PASSWORD: ${{ secrets.TOKEN_PASSWORD }}
