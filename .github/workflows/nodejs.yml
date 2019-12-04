@@ -39,7 +39,7 @@ jobs:
       continue-on-error: true
     - name: Report results to dashboard
       run: |
-        curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "x-api-key: ${{ secrets.CALLIOPE_TOKEN }}" -F "file[]=@reports/xml-report/result.xml" http://app.calliope.pro/api/v2/profile/764/report/import?os=macos&platform=chrome&build=$GITHUB_SHA
+        curl -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "x-api-key: ${{ secrets.CALLIOPE_TOKEN }}" -F "file[]=@reports/xml-report/result.xml" http://app.calliope.pro/api/v2/profile/764/report/import/junit
       continue-on-error: true
     - name: Archive jUnit results to artifacts
       uses: actions/upload-artifact@v1
