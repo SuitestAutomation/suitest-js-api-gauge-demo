@@ -1,5 +1,6 @@
-name: Gauge tests
+name: Gauge smoke tests
 
+# trigger smoke test execution on every commit to master branch
 on:
   push:
     branches:
@@ -30,7 +31,7 @@ jobs:
         npm ci
     - name: Run tests
       run: |
-        npm run automated
+        npm run automated:smoke | tee reports/logs/stdout.log
       env:
         CI: true
         SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
@@ -39,17 +40,10 @@ jobs:
       continue-on-error: true
     - name: Report results to dashboard
       run: |
-        curl -X POST -H "x-api-key:${{ secrets.CALLIOPE_TOKEN }}" -H "Content-Type:application/*" --data "@reports/xml-report/result.xml" "https://app.calliope.pro/api/v2/profile/764/report/import/junit"
+        curl -X POST -H "x-api-key:${{ secrets.CALLIOPE_TOKEN }}" -H "Content-Type:application/*" --data "@reports/xml-report/result.xml" "https://app.calliope.pro/api/v2/profile/765/report/import/junit"
       continue-on-error: true
-    - name: Archive jUnit results to artifacts
+    - name: Archive the reports and save them as artifact
       uses: actions/upload-artifact@v1
       with:
-        name: jUnit report
-        path: reports/xml-report
-      continue-on-error: true
-    - name: Archive HTML results to artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: HTML report
-        path: reports/html-report
-      continue-on-error: true
+        name: Report
+        path: reports

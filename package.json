@@ -7,11 +7,9 @@
     "interactive:home": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, home\\\"",
     "interactive:video": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, video\\\"",
     "interactive:image": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, image\\\"",
+    "interactive:category": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, category\\\"",
     "interactive:smoke": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\"",
     "automated": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
-    "automated:home": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, home\\\"",
-    "automated:video": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, video\\\"",
-    "automated:image": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, image\\\"",
     "automated:smoke": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\""
   },
   "dependencies": {

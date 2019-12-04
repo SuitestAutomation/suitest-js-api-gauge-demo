@@ -1,5 +1,8 @@
 /* globals gauge*/
 "use strict";
+const fetch = require('node-fetch');
+const nodeAssert = require('assert');
+
 const suitest = require('suitest-js-api');
 const {assert} = suitest;
 
@@ -70,12 +73,17 @@ step("Make sure every main menu item is selectable", async () => {
         await isSelected(assert.element(getSelector(selector))).timeout(DEFAULT_TIMEOUT);
 
         // Wait until focus is moved to content tile in case it exists
-        if (await suitest.element(getSelector('First tile')).exists().timeout(DEFAULT_TIMEOUT)) {
-            // There is some contents, have to press up
-            await suitest.press(suitest.VRC.UP).until(
-                isFocused(suitest.element(getSelector(selector)))
-            ).repeat(3);
+        if (!await suitest.element(getSelector('First tile')).exists().timeout(DEFAULT_TIMEOUT)) {
+            // Log a message to the console - could be useful
+            console.log(`Top menu item "${selector}" does not have any data, skipping some steps`);
+
+            continue;
         }
+
+        // There is some contents, have to press up
+        await suitest.press(suitest.VRC.UP).until(
+            isFocused(suitest.element(getSelector(selector)))
+        ).repeat(3);
     }
 });
 
@@ -91,4 +99,38 @@ step("Navigate to pause button", async () => {
 step("Run test <testName>", async (testName) => {
     // Run pre-defined test editor test snippet
     await suitest.assert.runTest(getTestId(testName));
+});
+
+step("Load <page> page items", async (page) => {
+    // Fetch data from server
+    const response = await fetch(`http://file.suite.st/sampleapp/api/${page}.json`);
+
+    // ensure status code is 200. If it's something else
+    // - we have a problem already and it does not make sense to continue
+    nodeAssert.strictEqual(response.status, 200, 'Failed to load category data');
+
+    // wait for data to be loaded and JSON parsed
+    const data = await response.json();
+
+    // Save the data for use in other test lines
+    gauge.dataStore.scenarioStore.put('page-data', data);
+});
+
+step("Assert page items are rendered", async () => {
+    // Get currently loaded data from storage. Assume it was saved there in one of the previous steps
+    const data = gauge.dataStore.scenarioStore.get('page-data');
+
+    if (!data) {
+        // A precaution...
+        nodeAssert.fail('Data to test against was not recorded in storage. Forgot to load it?');
+    }
+
+    // For each item in data list
+    for (const item of data.list) {
+        // Make sure there is an element with item's name present in DOM
+        await assert.element({text: item.name}).exists().timeout(DEFAULT_TIMEOUT);
+
+        // Make sure there is an image for given item and that it's loaded
+        await assert.element({css: `#listpageItem-img-${item.id}_img`}).matches(suitest.PROP.IMAGE_LOAD_STATE, suitest.IMAGE_LOAD_STATE.LOADED).timeout(DEFAULT_TIMEOUT);
+    }
 });
