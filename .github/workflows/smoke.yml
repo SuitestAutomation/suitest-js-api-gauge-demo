@@ -1,9 +1,9 @@
 name: Gauge smoke tests
 
-# trigger smoke test execution on every commit to master branch
+# trigger smoke test execution on every commit to any branch except master
 on:
   push:
-    branches:
+    branches-ignore:
       - master
 
 jobs:
