@@ -31,19 +31,22 @@ jobs:
         npm ci
     - name: Run tests
       run: |
+        mkdir -p reports/logs
+        set -o pipefail
         npm run automated:smoke | tee reports/logs/stdout.log
+        set +o pipefail
       env:
         CI: true
         SUITEST_TEST_PACK_ID: ${{ secrets.TEST_PACK_ID }}
         SUITEST_TOKEN_KEY: ${{ secrets.TOKEN_KEY }}
         SUITEST_TOKEN_PASSWORD: ${{ secrets.TOKEN_PASSWORD }}
-      continue-on-error: true
     - name: Report results to dashboard
       run: |
         curl -X POST -H "x-api-key:${{ secrets.CALLIOPE_TOKEN }}" -H "Content-Type:application/*" --data "@reports/xml-report/result.xml" "https://app.calliope.pro/api/v2/profile/765/report/import/junit"
-      continue-on-error: true
+      if: success() || failure()
     - name: Archive the reports and save them as artifact
       uses: actions/upload-artifact@v1
       with:
-        name: Report
+        name: Smoke test report
         path: reports
+      if: success() || failure()
