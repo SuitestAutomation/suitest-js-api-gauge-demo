@@ -13,7 +13,7 @@ First, navigate to some image
 * Press "right" exactly "2" times
 * Press "enter"
 * Assert element "First tile" exists
-* Press "enter"
+* Press "right"
 
 Now make sure image is loaded
 
