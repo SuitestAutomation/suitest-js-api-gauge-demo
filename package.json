@@ -14,6 +14,6 @@
   },
   "dependencies": {
     "node-fetch": "^2.6.0",
-    "suitest-js-api": "github:SuitestAutomation/suitest-js-api#release/test-editor-tests-in-js-api"
+    "suitest-js-api": "^1.16.11"
   }
 }
