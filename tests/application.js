@@ -36,8 +36,7 @@ function isSelected(element) {
  */
 step("Open application", async () => {
     // Tell Suitest that a new test must start. This would re-set the context for test execution (e.g. for network requests)
-    // We don't care about the test name in this case
-    await suitest.startTest('Start test');
+    await suitest.startTest();
     // Open the applicaition on the main page
     await suitest.openApp();
     // Wait until main content element exists on the page, i.e. it's loaded and ready for interaction
