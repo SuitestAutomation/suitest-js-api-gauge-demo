@@ -13,7 +13,7 @@
     "automated:smoke": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\""
   },
   "dependencies": {
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "suitest-js-api": "github:SuitestAutomation/suitest-js-api#release/test-editor-tests-in-js-api"
   }
 }
