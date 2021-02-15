@@ -4,6 +4,8 @@ This repository contains a demo of [Suitest JS API](https://github.com/SuitestAu
 
 ## Setup
 
+Note: Please, make sure, that Gauge is installed in your system, before run this demo. Latest version can be found [here](https://docs.gauge.org/getting_started/installing-gauge.html).
+
 1. Copy `.suitestrc.dist` file as `.suitestrc` and fill in it's contents with your values according to [documentation](https://suite.st/docs/suitest-api/setup/#environment-setup).
 
 2. In terminal run `npm ci`.
