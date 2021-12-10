@@ -1,0 +1,14 @@
+{
+  "extends": ".suitestrc.base.json",
+  "preset": ["firstPreset", "secondPreset"],
+  "presets": {
+    "firstPreset": {
+      "device": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "config": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    },
+    "secondPreset": {
+      "device": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx",
+      "config": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    }
+  }
+}
