@@ -1,9 +1,7 @@
 {
-  "orgId": "",
   "deviceId": "",
   "appConfigId": "",
   "logLevel": "normal",
-  "testPackId": "",
-  "tokenKey": "",
+  "tokenId": "",
   "tokenPassword": ""
 }

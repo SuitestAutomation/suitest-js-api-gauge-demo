@@ -1,19 +1,16 @@
 {
   "name": "suitest-js-api-gauge-demo",
-  "version": "0.0.1",
-  "description": "An example of Suitest <-> Gause integration",
+  "version": "0.1.0",
+  "description": "An example of Suitest <-> Gauge integration",
   "scripts": {
-    "interactive": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
-    "interactive:home": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, home\\\"",
-    "interactive:video": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, video\\\"",
-    "interactive:image": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, image\\\"",
-    "interactive:category": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, category\\\"",
-    "interactive:smoke": "suitest interactive gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\"",
-    "automated": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
-    "automated:smoke": "suitest automated -t=$SUITEST_TEST_PACK_ID -k=$SUITEST_TOKEN_KEY -p=$SUITEST_TOKEN_PASSWORD gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\""
+    "start": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
+    "start:home": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, home\\\"",
+    "start:video": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, video\\\"",
+    "start:smoke": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\"",
+    "parallel": "suitest run --config-file=.suitestrc.parallel.json gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
+    "parallel:smoke": "suitest run --config-file=.suitestrc.parallel.json gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\""
   },
   "dependencies": {
-    "node-fetch": "^2.6.0",
-    "suitest-js-api": "github:SuitestAutomation/suitest-js-api#release/test-editor-tests-in-js-api"
+    "suitest-js-api": "^3.1.0"
   }
 }
