@@ -1,46 +1,65 @@
 name: Gauge e2e tests
 
-# trigger e2e test run when pre-release is created
+# Trigger e2e test run on pull requests
 on: [pull_request]
 
 jobs:
   test:
-
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [22.x]
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Install dependencies
-      run: |
-        sudo apt-key adv --keyserver hkp://pool.sks-keyservers.net --recv-keys 023EDB0B
-        echo deb https://dl.bintray.com/gauge/gauge-deb stable main | sudo tee -a /etc/apt/sources.list
-        sudo apt-get update
-        sudo apt-get install gauge
-        gauge install
-        npm ci
-    - name: Run tests
-      run: |
-        mkdir -p reports/logs
-        set -o pipefail
-        npm run automated | tee reports/logs/stdout.log
-        set -o pipefail
-      env:
-        CI: true
-    - name: Report results to dashboard
-      run: |
-        curl -X POST -H "x-api-key:${{ secrets.CALLIOPE_TOKEN }}" -H "Content-Type:application/*" --data "@reports/xml-report/result.xml" "https://app.calliope.pro/api/v2/profile/764/report/import/junit"
-      if: success() || failure()
-    - name: Archive the reports and save them as artifact
-      uses: actions/upload-artifact@v1
-      with:
-        name: E2e report
-        path: reports
-      if: success() || failure()
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: |
+          npm ci
+          curl -SsL https://downloads.gauge.org/stable | sh
+          echo "$HOME/.gauge/bin" >> "$GITHUB_PATH"
+          export PATH="$HOME/.gauge/bin:$PATH"
+          gauge --version
+          gauge install
+
+      - name: Create Suitest config
+        run: |
+          cat > .suitestrc <<EOF
+          {
+            "tokenId": "${{ secrets.SUITEST_TOKEN_ID }}",
+            "tokenPassword": "${{ secrets.SUITEST_TOKEN_PASSWORD }}",
+            "deviceId": "${{ secrets.SUITEST_DEVICE_ID }}",
+            "appConfigId": "${{ secrets.SUITEST_APP_CONFIG_ID }}",
+            "logLevel": "normal"
+          }
+          EOF
+
+      - name: Run tests
+        run: |
+          mkdir -p reports/logs
+          set -o pipefail
+          npm start | tee reports/logs/stdout.log
+        env:
+          CI: true
+
+      - name: Report results to dashboard
+        if: success() || failure()
+        run: |
+          curl -X POST \
+            -H "x-api-key:${{ secrets.CALLIOPE_TOKEN }}" \
+            -H "Content-Type:application/*" \
+            --data "@reports/xml-report/result.xml" \
+            "https://app.calliope.pro/api/v2/profile/764/report/import/junit"
+
+      - name: Archive the reports and save them as artifact
+        if: success() || failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: E2e report
+          path: reports
