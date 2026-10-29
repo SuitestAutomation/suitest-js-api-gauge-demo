@@ -7,10 +7,10 @@
     "start:home": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, home\\\"",
     "start:video": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e, video\\\"",
     "start:smoke": "suitest run gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\"",
-    "parallel": "suitest run --config-file=.suitestrc.parallel.json gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
-    "parallel:smoke": "suitest run --config-file=.suitestrc.parallel.json gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\""
+    "parallel": "suitest run --config-file=config-examples/.suitestrc.parallel.json gauge run specs/ --simple-console --hide-suggestion --tags \\\"e2e\\\"",
+    "parallel:smoke": "suitest run --config-file=config-examples/.suitestrc.parallel.json gauge run specs/ --simple-console --hide-suggestion --tags \\\"smoke\\\""
   },
   "dependencies": {
-    "suitest-js-api": "^3.1.0"
+    "suitest-js-api": "^4.2.4"
   }
 }
