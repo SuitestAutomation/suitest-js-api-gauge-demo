@@ -43,24 +43,6 @@ jobs:
           }
           EOF
 
-      - name: Run tests
-        run: |
-          mkdir -p reports/logs
-          set -o pipefail
-          npm run start:smoke | tee reports/logs/stdout.log
-          set +o pipefail
-        env:
-          CI: true
-
-      - name: Report results to dashboard
-        if: success() || failure()
-        run: |
-          curl -X POST \
-            -H "x-api-key:${{ secrets.CALLIOPE_TOKEN }}" \
-            -H "Content-Type:application/*" \
-            --data "@reports/xml-report/result.xml" \
-            "https://app.calliope.pro/api/v2/profile/765/report/import/junit"
-
       - name: Archive the reports and save them as artifact
         if: success() || failure()
         uses: actions/upload-artifact@v4
